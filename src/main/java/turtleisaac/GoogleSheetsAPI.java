@@ -21,7 +21,7 @@ import java.util.List;
 public class GoogleSheetsAPI {
 
 	private Sheets sheetsService;
-	private String APPLICATION_NAME = "Bs2Zml";
+	private String APPLICATION_NAME = "Bs2Yml";
 	private String SPREADSHEET_ID;
 	private String SPREADSHEET_LINK;
 	private String projectPath;

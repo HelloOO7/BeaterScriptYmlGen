@@ -1,3 +1,4 @@
 build/
+tokens/
 .gradle/
 src/main/resources/credentials.json
