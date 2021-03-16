@@ -57,10 +57,10 @@ public class BsYmlGen {
 							case ColumnTags.CT_HASMOVE:
 								COLID_HASMOVEMENT = idx;
 								break;
-							case ColumnTags.CT_PSNAME:
+							case ColumnTags.CT_PSPKG:
 								COLID_PSPKG = idx;
 								break;
-							case ColumnTags.CT_PSPKG:
+							case ColumnTags.CT_PSNAME:
 								COLID_PSNAME = idx;
 								break;
 						}
@@ -101,6 +101,11 @@ public class BsYmlGen {
 
 								ArgType t = ArgType.valueOf(col);
 								fd.argTypes.add(t);
+								
+								if (t.returnType != null){
+									fd.returnParamNames.add(argName);
+									fd.returnParamTypes.add(t);
+								}
 							} else {
 								break;
 							}
@@ -125,6 +130,6 @@ public class BsYmlGen {
 		int blue = (int) (color.getBlue() == null ? 0 : color.getBlue() * 255);
 		int green = (int) (color.getGreen() == null ? 0 : color.getGreen() * 255);
 
-		return new java.awt.Color(red, blue, green);
+		return new java.awt.Color(red, green, blue);
 	}
 }
