@@ -159,23 +159,7 @@ public class GoogleSheetsAPI {
 				.get(0)
 				.getNote();
 	}
-
-	public String getAPPLICATION_NAME() {
-		return APPLICATION_NAME;
-	}
-
-	public String getSPREADSHEET_ID() {
-		return SPREADSHEET_ID;
-	}
-
-	public String getSPREADSHEET_LINK() {
-		return SPREADSHEET_LINK;
-	}
-
-	public void setAPPLICATION_NAME(String APPLICATION_NAME) {
-		this.APPLICATION_NAME = APPLICATION_NAME;
-	}
-
+	
 	private int indexOf(String[] arr, String str) {
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i].equals(str)) {

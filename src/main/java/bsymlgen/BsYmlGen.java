@@ -125,7 +125,7 @@ public class BsYmlGen {
 		}
 	}
 
-	private static java.awt.Color getAWTColor(Color color) {
+	public static java.awt.Color getAWTColor(Color color) {
 		int red = (int) (color.getRed() == null ? 0 : color.getRed() * 255);
 		int blue = (int) (color.getBlue() == null ? 0 : color.getBlue() * 255);
 		int green = (int) (color.getGreen() == null ? 0 : color.getGreen() * 255);

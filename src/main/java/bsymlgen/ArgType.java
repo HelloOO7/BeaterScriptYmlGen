@@ -19,6 +19,9 @@ public enum ArgType {
 	WK(new Color(52, 168, 83), "ref ushort"),
 	FLEX(new Color(255, 153, 0), "ushort"),
 	
+	FX16(new Color(69, 129, 142), "fx16"),
+	FX32(new Color(19, 79, 92), "fx32"),
+	
 	RETURN_INT(new Color(153, 0, 255), "ref ushort", "ushort"),
 	RETURN_BOOL(new Color(255, 0, 255), "ref ushort", "bool");
 	
