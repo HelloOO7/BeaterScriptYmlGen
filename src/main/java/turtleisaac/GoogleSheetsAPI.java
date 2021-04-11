@@ -85,7 +85,36 @@ public class GoogleSheetsAPI {
 		return strings;
 	}
 	
-	public List<List<Color>> getSpecifiedSheetColors(String subSheet) throws IOException {
+	public List<List<CellFormat>> getSpecifiedSheetCellFormats(String subSheet) throws IOException {
+		Spreadsheet ss = sheetsService.spreadsheets().get(SPREADSHEET_ID).setIncludeGridData(true).execute();
+
+		Sheet s = null;
+		for (Sheet s2 : ss.getSheets()){
+			if (s2.getProperties().getTitle().equals(subSheet)){
+				s = s2;
+				break;
+			}
+		}
+		
+		List<List<CellFormat>> cellFormats = new ArrayList<>();
+
+		if (s != null){
+			GridData gd = s.getData().get(0);
+			
+			for (RowData row : gd.getRowData()){
+				List<CellFormat> rowFormats = new ArrayList<>();
+				for (CellData cell : row.getValues()){
+					CellFormat fmt = cell.getEffectiveFormat();
+					rowFormats.add(fmt);
+				}
+				cellFormats.add(rowFormats);
+			}
+		}
+		
+		return cellFormats;
+	}
+	
+	public List<List<Color>> getSpecifiedSheetTextColors(String subSheet) throws IOException {
 		Spreadsheet ss = sheetsService.spreadsheets().get(SPREADSHEET_ID).setIncludeGridData(true).execute();
 
 		Sheet s = null;
@@ -104,7 +133,7 @@ public class GoogleSheetsAPI {
 				List<Color> colors = new ArrayList<>();
 				for (CellData cell : row.getValues()){
 					CellFormat fmt = cell.getEffectiveFormat();
-					colors.add(fmt.getBackgroundColor());
+					colors.add(fmt.getTextFormat().getForegroundColor());
 				}
 				l.add(colors);
 			}

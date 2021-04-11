@@ -5,6 +5,7 @@
  */
 package bsymlgen;
 
+import com.google.api.services.sheets.v4.model.CellFormat;
 import com.google.api.services.sheets.v4.model.Color;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class BsYmlGen {
 
 			for (String sheet : sheets) {
 				List<List<String>> values = api.getSpecifiedSheet(sheet);
-				List<List<Color>> sheetColors = api.getSpecifiedSheetColors(sheet);
+				List<List<CellFormat>> sheetCellFormats = api.getSpecifiedSheetCellFormats(sheet);
 
 				int COL_OPCODE = -1;
 				int COL_BSNAME = -1;
@@ -41,7 +42,8 @@ public class BsYmlGen {
 				int idx = 0;
 				for (Object o : values.get(0)) {
 					if (o instanceof String) {
-						switch ((String) o) {
+						String s = (String)o;
+						switch (s) {
 							case ColumnTags.CT_BRIEF:
 								COL_BRIEF = idx;
 								break;
@@ -64,6 +66,10 @@ public class BsYmlGen {
 								COLID_PSNAME = idx;
 								break;
 						}
+						
+						if (s.startsWith(ColumnTags.CT_BSNAME)){
+							COL_BSNAME = idx;
+						}
 					}
 					idx++;
 				}
@@ -72,23 +78,23 @@ public class BsYmlGen {
 
 				for (int i = 1; i < values.size(); i++) {
 					List<String> rowStr = values.get(i);
-					List<Color> colors = sheetColors.get(i);
-
+					List<CellFormat> rowCellFormats = sheetCellFormats.get(i);
+					
 					String opCode = rowStr.get(COL_OPCODE);
 					if (!opCode.trim().isEmpty()) {
 						FuncData fd = new FuncData();
 						fd.opCode = Integer.parseInt(opCode, 16);
 						fd.brief = rowStr.get(COL_BRIEF);
 						fd.name = rowStr.get(COL_BSNAME);
-						
 
-						if (COLID_HASMOVEMENT != -1) {
-							fd.hasMovement = !rowStr.get(COLID_HASMOVEMENT).trim().isEmpty();
+						fd.type = FuncType.identifyByColor(getAWTColor(rowCellFormats.get(COL_BSNAME).getTextFormat().getForegroundColor()));
+						if (rowCellFormats.get(COL_BSNAME).getTextFormat().getItalic()){
+							fd.isConditional = true;
 						}
-						if (COLID_HASFUNC != -1) {
-							fd.hasFunction = !rowStr.get(COLID_HASFUNC).trim().isEmpty();
+						if (rowCellFormats.get(COL_BSNAME).getTextFormat().getBold()){
+							fd.writesCondition = true;
 						}
-						
+
 						fd.psClasspath = rowStr.get(COLID_PSPKG);
 						fd.psName = rowStr.get(COLID_PSNAME);
 
@@ -96,13 +102,13 @@ public class BsYmlGen {
 							String argName = rowStr.get(argIdx);
 							if (!argName.trim().isEmpty()) {
 								fd.argNames.add(argName);
-								Color typeColor = colors.get(argIdx);
+								Color typeColor = rowCellFormats.get(argIdx).getBackgroundColor();
 								java.awt.Color col = getAWTColor(typeColor);
 
 								ArgType t = ArgType.valueOf(col);
 								fd.argTypes.add(t);
-								
-								if (t.returnType != null){
+
+								if (t.returnType != null) {
 									fd.returnParamNames.add(argName);
 									fd.returnParamTypes.add(t);
 								}
@@ -116,7 +122,9 @@ public class BsYmlGen {
 
 				PrintStream out = new PrintStream(new File(System.getProperty("user.dir") + "/" + sheet + ".yml"));
 				for (FuncData fd : funcs) {
-					out.println(fd.toString());
+					if (!fd.name.trim().isEmpty()) {
+						out.println(fd.toString());
+					}
 				}
 				out.close();
 			}

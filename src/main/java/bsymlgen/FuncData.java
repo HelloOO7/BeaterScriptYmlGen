@@ -17,8 +17,9 @@ public class FuncData {
 	public String name;
 	public String brief;
 
-	public boolean hasMovement;
-	public boolean hasFunction;
+	public FuncType type;
+	public boolean isConditional = false;
+	public boolean writesCondition = false;
 
 	public String psClasspath = null;
 	public String psName = null;
@@ -67,15 +68,23 @@ public class FuncData {
 				}
 			}
 		}
-		if (hasFunction) {
-			sb.append("    HasFunction: true\n");
+		
+		for (String bool : type.appliedBoolParams){
+			sb.append("    ");
+			sb.append(bool);
+			sb.append(": true\n");
 		}
-		if (hasMovement) {
-			sb.append("    HasMovement: true\n");
+		
+		if (isConditional){
+			sb.append("    HasCondition: true\n");
 		}
+		if (writesCondition){
+			sb.append("    WritesCondition: true\n");
+		}
+		
 		if (!brief.trim().isEmpty()) {
 			sb.append("    Brief: \"");
-			sb.append(brief);
+			sb.append(brief.replace("\"", "\\\""));
 			sb.append("\"");
 			sb.append("\n");
 		}
