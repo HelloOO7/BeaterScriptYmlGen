@@ -13,7 +13,7 @@ import java.awt.Color;
  */
 public enum ArgType {
 	U8_C(Color.RED, "byte"),							//Unsigned 8-bits constant
-	U16_C(new Color(70, 189, 198), "const ushort"),		//Unsigned 16-bits constant
+	U16_C(new Color(70, 187, 198), "const ushort"),		//Unsigned 16-bits constant
 	S32_C(new Color(66, 133, 244), "int"),				//Signed 32-bits constant
 	
 	WK(new Color(52, 168, 83), "ref ushort"),			//Unsigned 16-bit work value reference
