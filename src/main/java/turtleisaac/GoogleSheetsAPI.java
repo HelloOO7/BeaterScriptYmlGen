@@ -169,25 +169,6 @@ public class GoogleSheetsAPI {
 
 		return sheetNames.toArray(new String[0]);
 	}
-
-	/**
-	 * Gets the note contained in cell (0,0)
-	 */
-	public String getPokeditorSheetType(int sheetId) throws IOException {
-		return sheetsService.spreadsheets().get(SPREADSHEET_ID)
-				.setIncludeGridData(true)
-				.setFields("sheets/data/rowData/values/note")
-				.execute()
-				.getSheets()
-				.get(sheetId)
-				.getData()
-				.get(0)
-				.getRowData()
-				.get(0)
-				.getValues()
-				.get(0)
-				.getNote();
-	}
 	
 	private int indexOf(String[] arr, String str) {
 		for (int i = 0; i < arr.length; i++) {
