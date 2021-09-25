@@ -6,7 +6,6 @@
 package bsymlgen;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,9 @@ public class FuncData {
 				out.printSimpleParam("Name", arg.name);
 
 				out.printSimpleParam("Type", arg.type.cstype);
-				out.printSimpleParam("IsReturn", "true");
+				if (arg.type.returnType != null) {
+					out.printSimpleParam("IsReturn", "true");
+				}
 
 				out.endElem();
 			}
