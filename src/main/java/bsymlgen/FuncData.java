@@ -50,6 +50,8 @@ public class FuncData {
 				out.printSimpleParam("Type", arg.type.cstype);
 				if (arg.type.returnType != null) {
 					out.printSimpleParam("IsReturn", "true");
+					
+					out.printSimpleParam("ReturnType", arg.type.returnType);
 				}
 
 				out.endElem();
