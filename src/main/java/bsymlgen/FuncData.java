@@ -19,7 +19,8 @@ public class FuncData {
 	public String brief;
 
 	public FuncType type;
-	public boolean isConditional = false;
+	public boolean isExtern = false;
+	public boolean readsCondition = false;
 	public boolean writesCondition = false;
 
 	public String psClasspath = null;
@@ -62,11 +63,14 @@ public class FuncData {
 
 		out.printSimpleParam("CommandType", type.commandTypeName);
 
-		if (isConditional) {
+		if (readsCondition) {
 			out.printSimpleParam("HasCondition", "true");
 		}
 		if (writesCondition) {
 			out.printSimpleParam("WritesCondition", "true");
+		}
+		if (isExtern) {
+			out.printSimpleParam("ExternCall", "true");
 		}
 
 		if (brief != null) {

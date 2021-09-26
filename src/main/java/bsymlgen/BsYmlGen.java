@@ -7,6 +7,7 @@ package bsymlgen;
 
 import com.google.api.services.sheets.v4.model.CellFormat;
 import com.google.api.services.sheets.v4.model.Color;
+import com.google.api.services.sheets.v4.model.TextFormat;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -104,12 +105,17 @@ public class BsYmlGen {
 								fd.brief = rowStr.get(COL_BRIEF);
 							}
 
-							fd.type = FuncType.identifyByColor(getAWTColor(rowCellFormats.get(COL_BSNAME).getTextFormat().getForegroundColor()));
-							if (rowCellFormats.get(COL_BSNAME).getTextFormat().getItalic()) {
-								fd.isConditional = true;
+							TextFormat tf = rowCellFormats.get(COL_BSNAME).getTextFormat();
+							
+							fd.type = FuncType.identifyByColor(getAWTColor(tf.getForegroundColor()));
+							if (tf.getItalic()) {
+								fd.readsCondition = true;
 							}
-							if (rowCellFormats.get(COL_BSNAME).getTextFormat().getBold()) {
+							if (tf.getBold()) {
 								fd.writesCondition = true;
+							}
+							if (tf.getUnderline()) {
+								fd.isExtern = true;
 							}
 
 							if (COLID_PSPKG < rowStr.size()) {
