@@ -21,7 +21,7 @@ import turtleisaac.GoogleSheetsAPI;
 public class BsYmlGen {
 
 	public static final String[][] SHEET_URLS = new String[][]{
-		{"BW", null},
+		{"BW", "https://docs.google.com/spreadsheets/d/1U1ymzqSR4mvYoX2OO4ktIke4vymbv-0MYB1i4183OyY"},
 		{"B2W2", "https://docs.google.com/spreadsheets/d/1zvLQFVdv6kbEgP9TY9yfV6ChK0qsz79E6PvF5lohnGk"}
 	};
 
@@ -67,6 +67,7 @@ public class BsYmlGen {
 									COL_BSNAME = idx;
 									break;
 								case ColumnTags.CT_OPCODE:
+								case ColumnTags.CT_OPCODE_ALT:
 									COL_OPCODE = idx;
 									break;
 								case ColumnTags.CT_PSPKG:
@@ -82,6 +83,11 @@ public class BsYmlGen {
 							}
 						}
 						idx++;
+					}
+					
+					if (COL_BSNAME == -1) {
+						System.out.println("Incompatible sheet. Continuing.");
+						continue;
 					}
 
 					List<FuncData> funcs = new ArrayList<>();
@@ -126,7 +132,11 @@ public class BsYmlGen {
 							}
 
 							for (int argIdx = COL_BSNAME + 1; argIdx < Math.min(COL_BRIEF, rowStr.size()); argIdx++) {
-								Color typeColor = rowCellFormats.get(argIdx).getBackgroundColor();
+								CellFormat cf = rowCellFormats.get(argIdx);
+								Color typeColor = new Color();
+								if (cf != null) {
+									typeColor = cf.getBackgroundColor();
+								}
 								java.awt.Color col = getAWTColor(typeColor);
 								String name = rowStr.get(argIdx).trim();
 

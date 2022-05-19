@@ -8,6 +8,7 @@ package bsymlgen;
 
 public class ColumnTags {
 	public static final String CT_OPCODE = "ID";
+	public static final String CT_OPCODE_ALT = "Command ID";
 	public static final String CT_BSNAME = "BeaterScript Name";
 	public static final String CT_BRIEF = "Explanation";
 	
