@@ -44,7 +44,8 @@ public class BsYmlGen {
 				String[] sheets = api.getSheetNames();
 
 				for (String sheet : sheets) {
-					System.out.println("Converting function set " + sheet);
+					String normalizedSheetName = sheet.replaceAll("^.*(Overlay [0-9]+).*$", "$1");
+					System.out.println("Converting function set " + sheet + " into " + normalizedSheetName);
 
 					List<List<String>> values = api.getSpecifiedSheet(sheet);
 					List<List<CellFormat>> sheetCellFormats = api.getSpecifiedSheetCellFormats(sheet);
@@ -163,7 +164,7 @@ public class BsYmlGen {
 						}
 					}
 
-					PrintStream out = new PrintStream(new File(sheetDataRoot + "/" + sheet + ".yml"));
+					PrintStream out = new PrintStream(new File(sheetDataRoot + "/" + normalizedSheetName + ".yml"));
 					for (FuncData fd : funcs) {
 						if (!fd.name.trim().isEmpty()) {
 							out.println(fd.toString());

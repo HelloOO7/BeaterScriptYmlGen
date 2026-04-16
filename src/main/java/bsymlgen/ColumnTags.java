@@ -15,6 +15,6 @@ public class ColumnTags {
 	public static final String CT_HASFUNC = "F";
 	public static final String CT_HASMOVE = "M";
 	
-	public static final String CT_PSPKG = "PokÈScript Package/Class";
-	public static final String CT_PSNAME = "PokÈScript Name";
+	public static final String CT_PSPKG = "Pok√©Script Package/Class";
+	public static final String CT_PSNAME = "Pok√©Script Name";
 }
